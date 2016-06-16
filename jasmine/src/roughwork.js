@@ -1,50 +1,74 @@
-					//what i need to do?
-		//use the filepath given above to load the .json file. How?
-			//check if the file path is valid
-			//check if it is a .json file
-				//load according to where
+function Index() {
+  var self = this;
+  this.index = {};
+  this.stopWords = [
+    "a", "i", "an", "and", "as", "at", "by",
+    "for", "has", "in", "is", "it", "of", "on",
+    "that", "the", "to", "was", "were", "with"
+  ];
+  this.books = [{
+      "title": "Alice in Wonderland",
+      "text": "Alice falls into a rabbit hole and enters a world full of imagination."
+    },
+
+    {
+
+      "title": " The Lord of the Rings: The Fellowship of the Ring.",
+      "text": "An unusual alliance of man, elf, dwarf, wizard and hobbit seek to destroy a powerful ring."
+    }
+  ];
+}
+Index.prototype.isCreated = function() {
+  return Object.keys(this.index).length > 0 ? true : false //returns true if the index has values.
+};
+
+Index.prototype.cleanData = function(string) {
+  var cleanString = [];
+  string = string.toLowerCase().replace(/[,.:]/g, "").split(" ");
+
+  for (word of string) {
+    if (!this.stopWords.includes(word)) {
+      cleanString.push(word);
+    }
+  }
+  return cleanString;
+};
+
+Index.prototype.getIndex = function() {
+  //Getter Function that returns the index.
+  return isCreated() ? this.inverted_index : "No Index Created"
+};
+
+Index.prototype.createIndex = function() {
+  // var self = this;
+
+  var loadedData = this.books;
+
+  completed = this.populateIndex(loadedData);
+  return true;
+};
 
 
 
-			// var stringJson = arrIndex.toLowerCase().replace(/^a-zA-Z/g);
-			// 	//filter(function (string_){
-          	// return string_.length != 0;});
-			// 	// need to read on regular expressions.
-			// arrayIndex.push(stringJson);
-			// for(var i = 0; i < arrayIndex.length; i++)
-		// 	{
-		// 		// if (arrayIndex[i].split(" ").length === 0){
-		// 		// inverted_index.arrayIndex[i].split(" ") = ["doc1"];
-		// 		// }
-		// 		arrayWords.push(arrayIndex[i].split(" "));
-			// }
-		// for(var i = 0; i < arrayIndex.length; i++){
-		// 	// if (arrayIndex[i].split(" ").length === 0){
-		// 		// inverted_index.arrayIndex[i].split(" ") = ["doc1"];
-		// 	// }
-		// 	console.log(arrayIndex[i].split(" "));
-			
-		// }
-		// console.log(arrayWords);
-		// uniq(arrayIndex);
-		// var arrayOfObjects = [];
-		// loadedData.map((books, index) => {
-		// 	// var stringJson = 
-		// 	var stringJson = JSON.stringify(books).toLowerCase().replace("title", "").replace("text", "");
-		// 	arrayOfObjects.push(stringJson);
-		// 	})
-		
-		// console.log(arrayOfObjects);
-		// var documentsother = [];
-		// var arrIndex = [];
-		// for(var prop in data){
-		// 	documents = data[prop];
-		// 	for(var property in documents){
-		// 		documentsother.push(documents[property]);
-		// 	}
-		// 	console.log(documentsother);
-		// }
+Index.prototype.populateIndex = function(data) {
+  var self = this;
+  data.forEach(function getLoadedData(book, num) {
+    for (var bookProp in book) {
+      var sentence = self.cleanData(book[bookProp]);
+      sentence.forEach(function insertWord(word) {
+        if (self.index.hasOwnProperty(word)) {
+          if (self.index[word].indexOf(num) == -1) {
+            self.index[word].push(num);
+          }
+        } else {
+          self.index[word] = [num];
+        }
+      });
+    };
 
-		// separate the documents (--objects)
-		// use this to create the invereted-index?
-		//store index in the above inverted-index. 
+  });
+
+};
+var ind = new Index();
+console.log(ind.createIndex());
+console.log(ind.index);
