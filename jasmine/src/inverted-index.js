@@ -20,19 +20,13 @@ Index.prototype.readJson = function(filepath) {
   //Check if file path is for a .json file
   return fetch(filepath)
     .then(function(response) {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        return Promise.reject(new Error("File Not Found"));
-      }
-
+      console.log(response);
+      return response.json();
     })
     .catch(function(err) {
-      // console.log("This is fetch error", err);
-
+      //console.log('we are here', err);
       return err;
     });
-
 
 };
 //Function that remove all the stop words above and does the formatting. 
@@ -72,17 +66,18 @@ Index.prototype.populateIndex = function(data) {
 //Function for creating the Index.
 Index.prototype.createIndex = function(filepath) {
   self = this;
-
-
-  return this.readJson(filepath).then(function(response) {
+  if (typeof filepath !== 'string') {
+    return "Invalid Arguement";
+  } else {
+    return this.readJson(filepath).then(function(response) {
       var data = response;
       self.populateIndex(data);
-      return Promise.resolve(self.isCreated());
-    }).catch(function() {
-      console.log("We are here");
-    })
-    // console.log(self.index);
-    // return true;
+      return self.isCreated();
+    });
+  }
+
+  // console.log(self.index);
+  // return true;
 
 };
 Index.prototype.exist = function(term) {
