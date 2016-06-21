@@ -12,16 +12,18 @@ describe('Index', function() {
     it('should check if the file passed is a valid file', function(done) {
 
       index.createIndex('/test').catch(function(e) {
-        expect(e).toEqual(jasmine.any(Error)); //
+        expect(e).toEqual(jasmine.any(Error));
         done();
       });
+
     });
 
 
     it('should check if the file passed is a valid JSON and not empty', function(done) {
 
       index.createIndex('/emptyBook.json').catch(function(e) {
-        expect(e).toEqual(jasmine.any(Error)); //
+        expect(e).toEqual(jasmine.any(Error));
+        console.log(e);
         done();
       });
     });

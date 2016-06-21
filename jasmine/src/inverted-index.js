@@ -1,37 +1,35 @@
 function Index() {
-
+  var self = this;
   //A private variable that will store the Inverted Index
   this.index = {};
   //Dictonary of Stop words
   this.stopWords = [
     "a", "i", "an", "and", "as", "at", "by",
     "for", "has", "in", "is", "it", "of", "on",
-    "that", "the", "to", "was", "were", "with"
+    "that", "the", "to", "was", "were", "with", ''
   ];
 };
 
 // Prototypes to separate the implementation.
 //Function that checks if the Inverted Index is populated.
 Index.prototype.isCreated = function() {
-  return Object.keys(this.index).length > 0 ? true : false //returns true if the index has values.
+  return Object.keys(self.index).length > 0 ? true : false //returns true if the index has values.
 };
 //Function that Reads the Json data from files. 
 Index.prototype.readJson = function(filepath) {
-  //Check if file path is for a .json file
   return fetch(filepath)
     .then(function(response) {
-      console.log(response);
-      return response.json();
-    })
-    .catch(function(err) {
-      //console.log('we are here', err);
-      return err;
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    }).catch(function(err) {
+      throw err;
     });
-
 };
 //Function that remove all the stop words above and does the formatting. 
 Index.prototype.cleanData = function(string) {
-  var self = this;
   var cleanString = [];
   string = string.toLowerCase().replace(/[,.:]/g, "").split(" ");
 
@@ -44,25 +42,26 @@ Index.prototype.cleanData = function(string) {
 };
 //Function that Populates Index
 Index.prototype.populateIndex = function(data) {
-  var here = this;
-  data.forEach(function getLoadedData(book, num) {
-    for (var bookProp in book) {
-      var sentence = here.cleanData(book[bookProp]);
-      sentence.forEach(function insertWord(word) {
-        if (here.index.hasOwnProperty(word)) {
-          if (here.index[word].indexOf(num) == -1) {
-            here.index[word].push(num);
-          }
-        } else {
-          here.index[word] = [num];
+  var self = this;
+  data.forEach(function getLoadedData(book, location) {
+    var sentences = '';
+    Object.keys(book).forEach(function(keys) {
+      sentences += book[keys] + " ";
+    });
+
+    var sentence = self.cleanData(sentences);
+
+    sentence.forEach(function(word) {
+      if (self.index.hasOwnProperty(word)) {
+        if (self.index[word].indexOf(location) == -1) {
+          self.index[word].push(location);
         }
-      });
-    };
+      } else {
+        self.index[word] = [location];
+      }
+    });
   });
 };
-
-
-
 //Function for creating the Index.
 Index.prototype.createIndex = function(filepath) {
   self = this;
@@ -70,28 +69,29 @@ Index.prototype.createIndex = function(filepath) {
     return "Invalid Arguement";
   } else {
     return this.readJson(filepath).then(function(response) {
-      var data = response;
-      self.populateIndex(data);
-      return self.isCreated();
-    });
+        var data = response;
+        self.populateIndex(data);
+        return self.isCreated();
+      })
+      .catch(function(err) {
+        throw err;
+      });
   }
-
-  // console.log(self.index);
-  // return true;
 
 };
 Index.prototype.exist = function(term) {
-  return this.index.hasOwnProperty(term);
+  return self.index.hasOwnProperty(term);
 }
 
 Index.prototype.getIndex = function() {
   //Getter Function that returns the index.
-  return this.isCreated() ? this.index : "No Index Created"
+  return self.isCreated() ? self.index : "No Index Created"
 };
 
 Index.prototype.searchIndex = function(term) {
   //Function that searches the Inverted Index for words.
-  var self = this;
+  //var self = this;
+
 
   if (typeof term !== 'string') {
     return "Invalid Search Term";
