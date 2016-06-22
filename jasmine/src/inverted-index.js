@@ -1,11 +1,12 @@
 'use strict';
 
 function Index() {
-  //variable that stores
-
+  //variable that store
 
   this.index = {};
-  //Dictonary of Stop words
+
+  // Array of all Stop words
+
   this.stopWords = [
     'a', 'i', 'an', 'and', 'as', 'at', 'by',
     'for', 'has', 'in', 'is', 'it', 'of', 'on',
@@ -14,11 +15,14 @@ function Index() {
 }
 
 // Prototypes to separate the implementation.
-//Function that checks if the Inverted Index is populated.
+// Function that checks if the Inverted Index is populated. Rwtuens true if the object has keys.
+
 Index.prototype.isCreated = function() {
   return Object.keys(this.index).length > 0 ? true : false;
 };
-//Function that Reads the Json data from files. 
+
+// Function that Reads .json file using the fetch API. Which uses promises instead of annoying callbacks
+
 Index.prototype.readJson = function(filepath) {
   return fetch(filepath)
     .then(function(response) {
@@ -31,7 +35,8 @@ Index.prototype.readJson = function(filepath) {
       throw err;
     });
 };
-//Function that remove all the stop words above and does the formatting. 
+// Function that formats the data by removing all the stop words above and does the formatting. 
+
 Index.prototype.cleanData = function(string) {
   var cleanString = [];
   string = string.toLowerCase().replace(/[,.:]/g, '').split(' ');
@@ -43,7 +48,9 @@ Index.prototype.cleanData = function(string) {
   }
   return cleanString;
 };
-//Function that Populates Index
+
+// Function that Inserts the actual words in the index object.
+
 Index.prototype.populateIndex = function(data) {
   var self = this;
   data.forEach(function getLoadedData(book, location) {
@@ -65,11 +72,13 @@ Index.prototype.populateIndex = function(data) {
     });
   });
 };
-//Function for creating the Index.
+
+// Main function that calls all the other methods above.
+
 Index.prototype.createIndex = function(filepath) {
   var self = this;
   if (typeof filepath !== 'string') {
-    return 'Invalid Arguement';
+    return 'Invalid Argument';
   } else {
     return this.readJson(filepath).then(function(response) {
         var data = response;
@@ -80,21 +89,21 @@ Index.prototype.createIndex = function(filepath) {
         throw err;
       });
   }
-
 };
+
 Index.prototype.exist = function(term) {
   return this.index.hasOwnProperty(term);
 };
 
 Index.prototype.getIndex = function() {
-  //Getter Function that returns the index.
 
   return this.isCreated() ? this.index : 'No Index Created';
 };
 
 Index.prototype.searchIndex = function(term) {
-  //Function that searches the Inverted Index for words.
-  //var self = this;
+
+  // Function that searches the Inverted Index for words.
+  // var self = this;
 
   if (typeof term !== 'string') {
     return 'Invalid Search Term';
@@ -105,6 +114,8 @@ Index.prototype.searchIndex = function(term) {
   }
 
   var input = term.toLowerCase();
-  //this is a function that searches for the term in the index. Produces the best results for searching those objects.
+
+  // function that searches for the term in the index. Produces the best results for searching those objects.
+
   return this.exist(input) ? this.index[input] : 'No such word found';
 };

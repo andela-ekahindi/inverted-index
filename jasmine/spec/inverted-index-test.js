@@ -5,8 +5,8 @@ describe('Index', function() {
   describe('Read book data', function() {
 
 
-    it('should check if an Invalid Arguement is passed', function() {
-      expect(index.createIndex()).toBe('Invalid Arguement');
+    it('should check if an Invalid Argument is passed', function() {
+      expect(index.createIndex()).toBe('Invalid Argument');
     });
 
     it('should check if the file passed is a valid file', function(done) {
@@ -65,7 +65,10 @@ describe('Index', function() {
     });
 
     it('should return -Invalid Search Term- if not a string passed.', function() {
+      expect(index.searchIndex()).toBe('Invalid Search Term');
       expect(index.searchIndex(1)).toBe('Invalid Search Term');
+      expect(index.searchIndex(1.67)).toBe('Invalid Search Term');
+      expect(index.searchIndex(true)).toBe('Invalid Search Term');
     });
 
     it('should return -No such word found- if a string not in the books was passed.', function() {
