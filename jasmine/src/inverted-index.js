@@ -103,7 +103,6 @@ Index.prototype.getIndex = function() {
 Index.prototype.searchIndex = function(term) {
 
   // Function that searches the Inverted Index for words.
-  // var self = this;
 
   if (typeof term !== 'string') {
     return 'Invalid Search Term';
@@ -115,7 +114,7 @@ Index.prototype.searchIndex = function(term) {
 
   var input = term.toLowerCase();
 
-  // function that searches for the term in the index. Produces the best results for searching those objects.
+  // Function that searches for the term in the index. Produces the best results for searching those objects.
 
   return this.exist(input) ? this.index[input] : 'No such word found';
 };

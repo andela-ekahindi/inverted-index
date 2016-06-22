@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Index', function() {
 
   var index = new Index();
