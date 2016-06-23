@@ -1,7 +1,7 @@
 'use strict';
 
 function Index() {
-  //variable that store
+  // variable that store
 
   this.index = {};
 
@@ -10,7 +10,7 @@ function Index() {
   this.stopWords = [
     'a', 'i', 'an', 'and', 'as', 'at', 'by',
     'for', 'has', 'in', 'is', 'it', 'of', 'on',
-    'that', 'the', 'to', 'was', 'were', 'with', ''
+    'that', 'the', 'to', 'was', 'were', 'with', ' '
   ];
 }
 
@@ -35,11 +35,12 @@ Index.prototype.readJson = function(filepath) {
       throw err;
     });
 };
+
 // Function that formats the data by removing all the stop words above and does the formatting. 
 
 Index.prototype.cleanData = function(string) {
   var cleanString = [];
-  string = string.toLowerCase().replace(/[,.:]/g, '').split(' ');
+  string = string.toLowerCase().replace(/\W/g, ' ').split(' ');
 
   for (var word of string) {
     if (!this.stopWords.includes(word)) {
@@ -112,7 +113,7 @@ Index.prototype.searchIndex = function(term) {
     return 'No Index Created';
   }
 
-  var input = term.toLowerCase();
+  var input = term.toLowerCase().replace(/\W/g, '');
 
   // Function that searches for the term in the index. Produces the best results for searching those objects.
 

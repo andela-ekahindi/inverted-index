@@ -63,6 +63,7 @@ describe('Index', function() {
     });
 
     it('should ensure it returns an array', function() {
+      expect
       expect(Array.isArray(index.searchIndex('alice'))).toBeTruthy();
     });
 
@@ -77,15 +78,16 @@ describe('Index', function() {
       expect(index.searchIndex('searchterm')).toBe('No such word found');
       expect(index.searchIndex('hellterm')).toBe('No such word found');
       expect(index.searchIndex('hallo')).toBe('No such word found');
-      expect(index.searchIndex('Esther')).toBe('No such word found');
+      expect(index.searchIndex('Esther.')).toBe('No such word found');
     });
 
     it('should verify that the right word is put in the right place', function() {
       expect(index.searchIndex('alice')).toEqual([0]);
       expect(index.searchIndex('Wonderland')).toEqual([0]);
       expect(index.searchIndex('unusual')).toEqual([1]);
-      expect(index.searchIndex('Lord')).toEqual([1]);
+      expect(index.searchIndex('Lord ')).toEqual([1]);
       expect(index.searchIndex('elf')).toEqual([1]);
+      expect(index.searchIndex('dwarf.')).toEqual([1]);
     });
   });
 
