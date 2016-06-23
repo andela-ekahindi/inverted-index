@@ -36,10 +36,10 @@ describe('Index', function() {
 
   describe('Populate Index', function() {
     it('should assert that the Index is created after the json is read', function(done) {
-      expect(index.getIndex()).toBe('No Index Created');
+      expect(index.getIndex()).toBe(null);
 
       index.createIndex('/books.json').then(function(result) {
-        expect(result).toBeTruthy();
+        expect(result).toBe(true);
         done();
       });
     });
@@ -67,18 +67,18 @@ describe('Index', function() {
       expect(Array.isArray(index.searchIndex('alice'))).toBeTruthy();
     });
 
-    it('should return -Invalid Search Term- if not a string passed.', function() {
-      expect(index.searchIndex()).toBe('Invalid Search Term');
-      expect(index.searchIndex(1)).toBe('Invalid Search Term');
-      expect(index.searchIndex(1.67)).toBe('Invalid Search Term');
-      expect(index.searchIndex(true)).toBe('Invalid Search Term');
+    it('should return null if not a string passed.', function() {
+      expect(index.searchIndex()).toBe(null);
+      expect(index.searchIndex(1)).toBe(null);
+      expect(index.searchIndex(1.67)).toBe(null);
+      expect(index.searchIndex(true)).toBe(null);
     });
 
     it('should return -No such word found- if a string not in the books was passed.', function() {
-      expect(index.searchIndex('searchterm')).toBe('No such word found');
-      expect(index.searchIndex('hellterm')).toBe('No such word found');
-      expect(index.searchIndex('hallo')).toBe('No such word found');
-      expect(index.searchIndex('Esther.')).toBe('No such word found');
+      expect(index.searchIndex('searchterm')).toBe(-1);
+      expect(index.searchIndex('hellterm')).toBe(-1);
+      expect(index.searchIndex('hallo')).toBe(-1);
+      expect(index.searchIndex('Esther.')).toBe(-1);
     });
 
     it('should verify that the right word is put in the right place', function() {

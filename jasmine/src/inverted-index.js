@@ -36,7 +36,7 @@ Index.prototype.readJson = function(filepath) {
     });
 };
 
-// Function that formats the data by removing all the stop words above and does the formatting. 
+// Function that formats the data by removing all the stop words above and does the formatting.
 
 Index.prototype.cleanData = function(string) {
   var cleanString = [];
@@ -82,8 +82,7 @@ Index.prototype.createIndex = function(filepath) {
     return 'Invalid Argument';
   } else {
     return this.readJson(filepath).then(function(response) {
-        var data = response;
-        self.populateIndex(data);
+        self.populateIndex(response);
         return self.isCreated();
       })
       .catch(function(err) {
@@ -97,8 +96,7 @@ Index.prototype.exist = function(term) {
 };
 
 Index.prototype.getIndex = function() {
-
-  return this.isCreated() ? this.index : 'No Index Created';
+  return this.isCreated() ? this.index : null;
 };
 
 Index.prototype.searchIndex = function(term) {
@@ -106,16 +104,16 @@ Index.prototype.searchIndex = function(term) {
   // Function that searches the Inverted Index for words.
 
   if (typeof term !== 'string') {
-    return 'Invalid Search Term';
+    return null;
   }
 
   if (!this.isCreated()) {
-    return 'No Index Created';
+    return null;
   }
 
   var input = term.toLowerCase().replace(/\W/g, '');
 
   // Function that searches for the term in the index. Produces the best results for searching those objects.
 
-  return this.exist(input) ? this.index[input] : 'No such word found';
+  return this.exist(input) ? this.index[input] : -1;
 };
