@@ -82,6 +82,7 @@ Index.prototype.createIndex = function(filepath) {
     return 'Invalid Argument';
   } else {
     return this.readJson(filepath).then(function(response) {
+        var data = response; //redudant code
         self.populateIndex(response);
         return self.isCreated();
       })
@@ -96,7 +97,8 @@ Index.prototype.exist = function(term) {
 };
 
 Index.prototype.getIndex = function() {
-  return this.isCreated() ? this.index : null;
+
+  return this.isCreated() ? this.index : "Index Not Created";
 };
 
 Index.prototype.searchIndex = function(term) {
