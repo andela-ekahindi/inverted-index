@@ -79,11 +79,11 @@ Index.prototype.populateIndex = function(data) {
 Index.prototype.createIndex = function(filepath) {
   var self = this;
   if (typeof filepath !== 'string') {
-    return 'Invalid Argument';
+    return null;
   } else {
     return this.readJson(filepath).then(function(response) {
-        var data = response; //redudant code
-        self.populateIndex(response);
+        var data = response;
+        self.populateIndex(data);
         return self.isCreated();
       })
       .catch(function(err) {
@@ -98,7 +98,7 @@ Index.prototype.exist = function(term) {
 
 Index.prototype.getIndex = function() {
 
-  return this.isCreated() ? this.index : "Index Not Created";
+  return this.isCreated() ? this.index : null;
 };
 
 Index.prototype.searchIndex = function(term) {

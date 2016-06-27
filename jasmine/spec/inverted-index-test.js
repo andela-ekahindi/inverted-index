@@ -8,7 +8,7 @@ describe('Index', function() {
 
 
     it('should check if an Invalid Argument is passed', function() {
-      expect(index.createIndex()).toBe('Invalid Argument');
+      expect(index.createIndex()).toBe(null);
     });
 
     it('should check if the file passed is a valid file', function(done) {
