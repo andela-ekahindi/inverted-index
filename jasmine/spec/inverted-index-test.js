@@ -75,10 +75,10 @@ describe('Index', function() {
     });
 
     it('should return -No such word found- if a string not in the books was passed.', function() {
-      expect(index.searchIndex('searchterm')).toBe(-1);
-      expect(index.searchIndex('hellterm')).toBe(-1);
-      expect(index.searchIndex('hallo')).toBe(-1);
-      expect(index.searchIndex('Esther.')).toBe(-1);
+      expect(index.searchIndex('searchterm')).toBe(null);
+      expect(index.searchIndex('hellterm')).toBe(null);
+      expect(index.searchIndex('hallo')).toBe(null);
+      expect(index.searchIndex('Esther.')).toBe(null);
     });
 
     it('should verify that the right word is put in the right place', function() {

@@ -117,5 +117,5 @@ Index.prototype.searchIndex = function(term) {
 
   // Function that searches for the term in the index. Produces the best results for searching those objects.
 
-  return this.exist(input) ? this.index[input] : -1;
+  return this.exist(input) ? this.index[input] : null;
 };
